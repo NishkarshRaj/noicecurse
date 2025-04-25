@@ -13,7 +13,7 @@ permissions:
 # Reusable variables
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ format(github.repository) }}
+  IMAGE_NAME: nishkarshraj/noicecurse
 
 jobs:
   build:
@@ -62,4 +62,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
