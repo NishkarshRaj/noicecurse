@@ -1,0 +1,23 @@
+{
+  "name": "noicecurse",
+  "version": "1.0.0",
+  "description": "lorem ipsum",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NishkarshRaj/noicecurse.git"
+  },
+  "author": "Nishkarsh Raj",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NishkarshRaj/noicecurse/issues"
+  },
+  "homepage": "https://github.com/NishkarshRaj/noicecurse#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
