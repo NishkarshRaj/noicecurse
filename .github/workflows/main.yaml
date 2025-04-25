@@ -1,0 +1,65 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Reusable variables
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: NishkarshRaj/noicecurse
+
+jobs:
+  build:
+    name: Build Automation
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    steps:
+      - uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          
+      - uses: actions/checkout@v3
+      
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          
+      - name: Install Dependencies
+        run: npm ci
+
+  artifact:
+    name: Artifact Automation
+    permissions:
+      contents: write
+      packages: write
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+          
+      - uses: actions/checkout@v3
+      
+      - uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
