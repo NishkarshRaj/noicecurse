@@ -13,7 +13,7 @@ permissions:
 # Reusable variables
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: NishkarshRaj/noicecurse
+  IMAGE_NAME: ${{ format(github.repository) }}
 
 jobs:
   build:
